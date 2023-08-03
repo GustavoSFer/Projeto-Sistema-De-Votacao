@@ -1,7 +1,7 @@
 package main;
 
 public abstract class Pessoa {
-  private String nome;
+  protected String nome;
 
   public abstract String getNome();
 

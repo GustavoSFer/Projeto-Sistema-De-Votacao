@@ -17,4 +17,13 @@ public class PessoaEleitora extends Pessoa {
   public void setNome(String nome) {
     super.nome = nome;
   }
+
+  public String getCpf() {
+    return cpf;
+  }
+
+  public void setCpf(String cpf) {
+    this.cpf = cpf;
+  }
+
 }

@@ -17,4 +17,30 @@ public class GerenciamentoVotacao {
       }
     }
   }
+
+  public void cadastrarPessoaEleitora(String nome, String cpf) {
+    for (PessoaEleitora eleitora : pessoaEleitora) {
+      if (eleitora.getCpf().equals(cpf)) {
+        System.out.println("Pessoa eleitora já cadastrada!");
+      } else {
+        pessoaEleitora.add(new PessoaEleitora(nome, cpf));
+      }
+    }
+  }
+
+  public void votar(String cpfPessoaEleitora, int numeroPessoaCandidata) {
+    for (String cpf : cpfComputado) {
+      if (cpf.equals(cpfPessoaEleitora)) {
+        System.out.println("Pessoa eleitora já votou!");
+      } else {
+        for (PessoaCandidata candidato : pessoasCandidatas) {
+          if (candidato.getNumero() == numeroPessoaCandidata) {
+            candidato.receberVoto();
+            cpfComputado.add(cpfPessoaEleitora);
+          }
+        }
+      }
+    }
+  }
+
 }

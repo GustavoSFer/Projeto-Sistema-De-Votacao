@@ -43,4 +43,23 @@ public class GerenciamentoVotacao {
     }
   }
 
+  public void mostrarResultado() {
+    if (cpfComputado.size() > 0) {
+      String nome;
+      int votos;
+      double porcentagem;
+
+      for (PessoaCandidata candidato : pessoasCandidatas) {
+        nome = candidato.getNome();
+        votos = candidato.getVotos();
+        porcentagem = votos * 100 / this.totalVotos;
+
+        System.out.println("Nome: " + nome + " - " + votos + " votos (" + porcentagem + "% )");
+      }
+      System.out.println(this.totalVotos);
+    } else {
+      System.out.println("É preciso ter pelo menos um voto para mostrar o resultado.");
+    }
+  }
+
 }

@@ -62,4 +62,8 @@ public class GerenciamentoVotacao {
     }
   }
 
+  private double calcularPorcentagemVotos(int index) {
+    return null;
+  }
+
 }

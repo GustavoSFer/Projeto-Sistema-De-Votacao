@@ -52,7 +52,8 @@ public class GerenciamentoVotacao {
       for (PessoaCandidata candidato : pessoasCandidatas) {
         nome = candidato.getNome();
         votos = candidato.getVotos();
-        porcentagem = votos * 100 / this.totalVotos;
+        int index = pessoasCandidatas.indexOf(candidato);
+        porcentagem = (double) calcularPorcentagemVotos(index);
 
         System.out.println("Nome: " + nome + " - " + votos + " votos (" + porcentagem + "% )");
       }
@@ -63,7 +64,10 @@ public class GerenciamentoVotacao {
   }
 
   private double calcularPorcentagemVotos(int index) {
-    return null;
+    // retorna o objeto pelo index informado
+    PessoaCandidata candidato = pessoasCandidatas.get(index);
+    double porcentagem = candidato.getVotos() * 100 / this.totalVotos;
+    return porcentagem;
   }
 
 }

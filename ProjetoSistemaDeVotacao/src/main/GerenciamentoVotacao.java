@@ -69,5 +69,4 @@ public class GerenciamentoVotacao {
     double porcentagem = candidato.getVotos() * 100 / this.totalVotos;
     return porcentagem;
   }
-
 }

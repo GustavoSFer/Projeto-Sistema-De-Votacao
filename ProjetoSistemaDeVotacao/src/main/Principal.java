@@ -33,6 +33,30 @@ public class Principal {
       }
     }
 
+    opcao = 0;
+
+    while (opcao != 2) {
+      System.out.println("Cadastrar pessoa eleitora?");
+      System.out.println("1- Sim\n2- Não\nEntre com o número correspondente à opção desejada:");
+      opcao = scanner.nextInt();
+
+      switch (opcao) {
+        case 1:
+          System.out.println("Entre com o nome da pessoa eleitora:");
+          String nome = scanner.next();
+
+          System.out.println("Entre com o cpf da pessoa eleitora:");
+          String cpf = scanner.next();
+
+          gerenciamento.cadastrarPessoaEleitora(nome, cpf);
+          break;
+        case 2:
+          break;
+        default:
+          System.out.println("Opção invalida! Escolha uma opção valida: ");
+      }
+    }
+
     scanner.close();
 
   }

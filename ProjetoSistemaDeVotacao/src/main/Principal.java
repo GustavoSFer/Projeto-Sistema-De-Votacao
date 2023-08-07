@@ -57,6 +57,28 @@ public class Principal {
       }
     }
 
+    System.out.println("\n----------- Votação iniciada! -----------\n");
+
+    while (opcao != 2) {
+      System.out.println("Entre com o número correspondente à opção desejada:");
+      System.out.println("1- Votar\n2- Resultado Parcial\n3- Finalizar Votação:");
+      opcao = scanner.nextInt();
+
+      switch (opcao) {
+        case 1:
+
+          break;
+        case 2:
+
+          break;
+        case 3:
+
+          break;
+        default:
+          System.out.println("Opção invalida! Escolha uma opção valida:");
+      }
+    }
+
     scanner.close();
 
   }

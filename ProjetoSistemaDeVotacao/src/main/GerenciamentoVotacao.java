@@ -4,69 +4,119 @@ import java.util.ArrayList;
 
 public class GerenciamentoVotacao {
   private ArrayList<PessoaCandidata> pessoasCandidatas = new ArrayList<PessoaCandidata>();
-  private ArrayList<PessoaEleitora> pessoaEleitora;
-  private ArrayList<String> cpfComputado;
+  private ArrayList<PessoaEleitora> pessoasEleitoras = new ArrayList<PessoaEleitora>();
+  private ArrayList<String> cpfComputado = new ArrayList<String>();
   private int totalVotos;
 
-  public void cadastrarPessoaCandidata(String nome, int numero) {
-    for (PessoaCandidata pessoa : pessoasCandidatas) {
-      if (pessoa.getNumero() == numero) {
-        System.out.println("Número pessoa candidata já utilizado!");
-      } else {
-        pessoasCandidatas.add(new PessoaCandidata(nome, numero));
-      }
-    }
-  }
 
-  public void cadastrarPessoaEleitora(String nome, String cpf) {
-    for (PessoaEleitora eleitora : pessoaEleitora) {
+
+  /**
+   * Verifica se ja existe a pessoa eleitora.
+   */
+  private boolean existePessoaEleitora(String cpf) {
+    for (PessoaEleitora eleitora : pessoasEleitoras) {
       if (eleitora.getCpf().equals(cpf)) {
-        System.out.println("Pessoa eleitora já cadastrada!");
-      } else {
-        pessoaEleitora.add(new PessoaEleitora(nome, cpf));
+        return true;
       }
+    }
+    return false;
+  }
+
+  /**
+   * Verifica se ja existe voto da pessoa com o cpf.
+   */
+  private boolean isVotou(String cpf) {
+    return cpfComputado.contains(cpf);
+  }
+
+  /**
+   * Verifica se ja existe a pessoa candidata.
+   */
+  private boolean existePessoaCandidata(int numero) {
+    for (PessoaCandidata candidato : pessoasCandidatas) {
+      if (candidato.getNumero() == numero) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Cadastra uma pessoa candidata.
+   */
+  public void cadastrarPessoaCandidata(String nome, int numero) {
+    boolean isExist = existePessoaCandidata(numero);
+
+    if (isExist) {
+      System.out.println("Número pessoa candidata já utilizado!");
+      return;
+    } else {
+      this.pessoasCandidatas.add(new PessoaCandidata(nome, numero));
     }
   }
 
-  public void votar(String cpfPessoaEleitora, int numeroPessoaCandidata) {
-    for (String cpf : cpfComputado) {
-      if (cpf.equals(cpfPessoaEleitora)) {
-        System.out.println("Pessoa eleitora já votou!");
-      } else {
-        for (PessoaCandidata candidato : pessoasCandidatas) {
-          if (candidato.getNumero() == numeroPessoaCandidata) {
-            candidato.receberVoto();
-            cpfComputado.add(cpfPessoaEleitora);
-          }
+  /**
+   * Cadastra uma pessoa eleitora.
+   */
+  public void cadastrarPessoaEleitora(String nome, String cpf) {
+    boolean isExist = existePessoaEleitora(cpf);
+
+    if (isExist) {
+      System.out.println("Pessoa eleitora já cadastrada!");
+      return;
+    } else {
+      this.pessoasEleitoras.add(new PessoaEleitora(nome, cpf));
+    }
+  }
+
+  /**
+   * Realiza a votação.
+   */
+  public void votar(String cpf, int numero) {
+    boolean votou = isVotou(cpf);
+
+    if (votou) {
+      System.out.println("Pessoa eleitora já votou!");
+      return;
+    } else {
+      for (PessoaCandidata candidato : pessoasCandidatas) {
+        if (candidato.getNumero() == numero) {
+          candidato.receberVoto();
+          break;
         }
       }
+      cpfComputado.add(cpf);
+      totalVotos++;
+      System.out.println("Voto computado com sucesso!\n");
     }
   }
 
+  /**
+   * Calcula a porcentagem de votos.
+   */
+  private double calcularPorcentagemVotos(int indexObj) {
+    PessoaCandidata pessoa = pessoasCandidatas.get(indexObj);
+    double porcetagemVoto = (double) pessoa.getVotos() / this.totalVotos * 100;
+    return porcetagemVoto;
+  }
+
+  /**
+   * Retorna o resultado dos votos.
+   */
   public void mostrarResultado() {
-    if (cpfComputado.size() > 0) {
-      String nome;
-      int votos;
-      double porcentagem;
+    if (this.cpfComputado.size() > 0) {
+      for (PessoaCandidata pessoa : pessoasCandidatas) {
+        String nome = pessoa.getNome();
+        int votos = pessoa.getVotos();
+        int index = pessoasCandidatas.indexOf(pessoa);
+        double porcentagem = this.calcularPorcentagemVotos(index);
 
-      for (PessoaCandidata candidato : pessoasCandidatas) {
-        nome = candidato.getNome();
-        votos = candidato.getVotos();
-        int index = pessoasCandidatas.indexOf(candidato);
-        porcentagem = (double) calcularPorcentagemVotos(index);
-
-        System.out.println("Nome: " + nome + " - " + votos + " votos (" + porcentagem + "% )");
+        System.out.println("Nome: " + nome + " - " + votos + " votos ( " + porcentagem + "% )");
       }
-      System.out.println(this.totalVotos);
+      System.out.println("Total de votos: " + this.totalVotos);
     } else {
       System.out.println("É preciso ter pelo menos um voto para mostrar o resultado.");
+      return;
     }
-  }
-
-  private double calcularPorcentagemVotos(int index) {
-    // retorna o objeto pelo index informado
-    PessoaCandidata candidato = pessoasCandidatas.get(index);
-    double porcentagem = candidato.getVotos() * 100 / this.totalVotos;
-    return porcentagem;
   }
 }

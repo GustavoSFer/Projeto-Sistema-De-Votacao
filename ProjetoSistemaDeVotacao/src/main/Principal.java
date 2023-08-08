@@ -56,23 +56,29 @@ public class Principal {
           System.out.println("Opção invalida! Escolha uma opção valida: ");
       }
     }
-
+    opcao = 0;
     System.out.println("\n----------- Votação iniciada! -----------\n");
 
-    while (opcao != 2) {
+    while (opcao != 3) {
       System.out.println("Entre com o número correspondente à opção desejada:");
       System.out.println("1- Votar\n2- Resultado Parcial\n3- Finalizar Votação:");
       opcao = scanner.nextInt();
 
       switch (opcao) {
         case 1:
+          System.out.println("Entre com o cpf da pessoa eleitora:");
+          String cpf = scanner.next();
+          System.out.println("Entre com o número da pessoa candidata:");
+          int numeroVoto = scanner.nextInt();
 
+          gerenciamento.votar(cpf, numeroVoto);
           break;
         case 2:
-
+          gerenciamento.mostrarResultado();
           break;
         case 3:
-
+          System.out.println("Resultado final");
+          gerenciamento.mostrarResultado();
           break;
         default:
           System.out.println("Opção invalida! Escolha uma opção valida:");
